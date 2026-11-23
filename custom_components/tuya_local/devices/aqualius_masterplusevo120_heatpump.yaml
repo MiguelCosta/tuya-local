@@ -1,0 +1,592 @@
+name: Combo heat pump
+products:
+  - id: gqy3lzze7un5npkj
+    manufacturer: Aqualius
+    model: Master Plus EVO 120
+
+entities:
+  # Space heating / cooling
+  - entity: climate
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+            available: water_off
+          - dps_val: true
+            constraint: mode
+            conditions:
+              - dps_val: heat
+                value: heat
+                available: water_off
+              - dps_val: cold
+                value: cool
+                available: water_off
+              - dps_val: dhw
+                value: "off"
+                available: water_on
+              - dps_val: heat_dhw
+                value: heat
+                available: water_on
+              - dps_val: cold_dhw
+                value: cool
+                available: water_on
+      - id: 119
+        type: string
+        name: mode
+        hidden: true
+        optional: true
+      - id: 119
+        type: string
+        name: water_off
+        hidden: true
+        optional: true
+        mapping:
+          - dps_val: heat
+            value: true
+          - dps_val: cold
+            value: true
+          - value: false
+      - id: 119
+        type: string
+        name: water_on
+        hidden: true
+        optional: true
+        mapping:
+          - dps_val: dhw
+            value: true
+          - dps_val: heat_dhw
+            value: true
+          - dps_val: cold_dhw
+            value: true
+          - value: false
+      - id: 4
+        type: integer
+        name: temperature
+        unit: C
+        range:
+          min: 60
+          max: 750
+        mapping:
+          - scale: 10
+            step: 10
+      - id: 16
+        type: integer
+        name: current_temperature
+        mapping:
+          - scale: 10
+      - id: 27
+        type: boolean
+        name: hvac_action
+        mapping:
+          - dps_val: false
+            value: idle
+          - dps_val: true
+            value: heating
+            constraint: work_state
+            conditions:
+              - dps_val: cold
+                value: cooling
+              - dps_val: dhw
+                value: idle
+      - id: 120
+        type: string
+        name: work_state
+        hidden: true
+        optional: true
+
+  # Domestic hot water (DHW)
+  - entity: water_heater
+    name: Hot water
+    dps:
+      - id: 1
+        type: boolean
+        name: operation_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+            available: air_off
+          - dps_val: true
+            constraint: mode
+            conditions:
+              - dps_val: dhw
+                value: heat_pump
+                available: air_off
+              - dps_val: cold
+                value: "off"
+                available: air_cool
+              - dps_val: cold_dhw
+                value: heat_pump
+                available: air_cool
+              - dps_val: heat
+                value: "off"
+                available: air_heat
+              - dps_val: heat_dhw
+                value: heat_pump
+                available: air_heat
+      - id: 119
+        type: string
+        name: mode
+        hidden: true
+        optional: true
+      - id: 119
+        type: string
+        name: air_off
+        hidden: true
+        optional: true
+        mapping:
+          - dps_val: dhw
+            value: true
+          - value: false
+      - id: 119
+        type: string
+        name: air_cool
+        hidden: true
+        optional: true
+        mapping:
+          - dps_val: cold
+            value: true
+          - dps_val: cold_dhw
+            value: true
+          - value: false
+      - id: 119
+        type: string
+        name: air_heat
+        hidden: true
+        optional: true
+        mapping:
+          - dps_val: heat
+            value: true
+          - dps_val: heat_dhw
+            value: true
+          - value: false
+      - id: 126
+        type: integer
+        name: temperature
+        unit: C
+        optional: true
+        range:
+          min: 100
+          max: 750
+        mapping:
+          - scale: 10
+            step: 10
+      - id: 103
+        type: integer
+        name: current_temperature
+        optional: true
+        mapping:
+          - scale: 10
+
+  # Combined mode (space + DHW)
+  - entity: select
+    translation_key: heat_pump_mode
+    category: config
+    dps:
+      - id: 119
+        type: string
+        name: option
+        optional: true
+        mapping:
+          - dps_val: heat
+            value: heat
+          - dps_val: cold
+            value: cool
+          - dps_val: dhw
+            value: hotwater
+          - dps_val: heat_dhw
+            value: hotwater_heat
+          - dps_val: cold_dhw
+            value: hotwater_cool
+
+  # Switches
+  - entity: switch
+    name: Anti-legionella
+    icon: "mdi:bacteria"
+    category: config
+    dps:
+      - id: 9
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Manual defrost
+    icon: "mdi:snowflake-melt"
+    category: config
+    dps:
+      - id: 7
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Fast heating
+    icon: "mdi:fire"
+    dps:
+      - id: 110
+        type: boolean
+        name: switch
+        optional: true
+  - entity: switch
+    name: Fast cooling
+    icon: "mdi:snowflake"
+    dps:
+      - id: 111
+        type: boolean
+        name: switch
+        optional: true
+  - entity: switch
+    name: Fast hot water
+    icon: "mdi:water-boiler"
+    dps:
+      - id: 117
+        type: boolean
+        name: switch
+        optional: true
+  - entity: switch
+    translation_key: night_mode
+    category: config
+    dps:
+      - id: 121
+        type: boolean
+        name: switch
+        optional: true
+  - entity: switch
+    name: Silent mode
+    icon: "mdi:volume-off"
+    category: config
+    dps:
+      - id: 122
+        type: boolean
+        name: switch
+        optional: true
+
+  # Status
+  - entity: binary_sensor
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 15
+        type: bitfield
+        name: sensor
+        optional: true
+        mapping:
+          - dps_val: 0
+            value: false
+          - value: true
+      - id: 15
+        type: bitfield
+        name: fault_code
+        optional: true
+  - entity: binary_sensor
+    name: Compressor
+    class: running
+    category: diagnostic
+    dps:
+      - id: 27
+        type: boolean
+        name: sensor
+  - entity: binary_sensor
+    name: Four-way valve
+    icon: "mdi:valve"
+    category: diagnostic
+    dps:
+      - id: 28
+        type: boolean
+        name: sensor
+  - entity: binary_sensor
+    name: Fan
+    class: running
+    category: diagnostic
+    dps:
+      - id: 29
+        type: boolean
+        name: sensor
+  - entity: binary_sensor
+    name: Water pump
+    class: running
+    category: diagnostic
+    dps:
+      - id: 30
+        type: boolean
+        name: sensor
+  - entity: binary_sensor
+    translation_key: defrost
+    category: diagnostic
+    dps:
+      - id: 33
+        type: boolean
+        name: sensor
+  - entity: binary_sensor
+    name: Anti-freeze
+    class: cold
+    category: diagnostic
+    dps:
+      - id: 123
+        type: boolean
+        name: sensor
+        optional: true
+  - entity: binary_sensor
+    name: Anti-legionella cycle
+    class: running
+    icon: "mdi:bacteria"
+    category: diagnostic
+    dps:
+      - id: 124
+        type: boolean
+        name: sensor
+        optional: true
+  - entity: sensor
+    name: Operating state
+    class: enum
+    icon: "mdi:heat-pump"
+    dps:
+      - id: 120
+        type: string
+        name: sensor
+        optional: true
+        mapping:
+          - dps_val: heating
+            value: Heating
+          - dps_val: cold
+            value: Cooling
+          - dps_val: dhw
+            value: Hot water
+
+  # Temperatures
+  - entity: sensor
+    translation_key: outlet_temperature
+    class: temperature
+    dps:
+      - id: 16
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        mapping:
+          - scale: 10
+  - entity: sensor
+    translation_key: inlet_temperature
+    class: temperature
+    dps:
+      - id: 101
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Tank temperature
+    class: temperature
+    dps:
+      - id: 103
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    translation_key: ambient_temperature
+    class: temperature
+    dps:
+      - id: 26
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Indoor temperature
+    class: temperature
+    dps:
+      - id: 105
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Coil temperature
+    class: temperature
+    category: diagnostic
+    icon: "mdi:pipe"
+    dps:
+      - id: 23
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Discharge temperature
+    class: temperature
+    category: diagnostic
+    dps:
+      - id: 24
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Suction temperature
+    class: temperature
+    category: diagnostic
+    dps:
+      - id: 102
+        type: integer
+        name: sensor
+        unit: C
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Suction superheat
+    icon: "mdi:thermometer-plus"
+    category: diagnostic
+    dps:
+      - id: 108
+        type: integer
+        name: sensor
+        unit: K
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+
+  # Refrigerant and water circuit
+  - entity: sensor
+    name: High pressure
+    class: pressure
+    category: diagnostic
+    dps:
+      - id: 112
+        type: integer
+        name: sensor
+        unit: MPa
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 1000
+  - entity: sensor
+    name: Low pressure
+    class: pressure
+    category: diagnostic
+    dps:
+      - id: 113
+        type: integer
+        name: sensor
+        unit: MPa
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 1000
+  - entity: sensor
+    name: Expansion valve opening
+    icon: "mdi:valve"
+    category: diagnostic
+    dps:
+      - id: 109
+        type: integer
+        name: sensor
+        unit: steps
+        class: measurement
+        optional: true
+  - entity: sensor
+    name: Compressor frequency
+    class: frequency
+    category: diagnostic
+    dps:
+      - id: 114
+        type: integer
+        name: sensor
+        unit: Hz
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Fan speed
+    icon: "mdi:fan"
+    category: diagnostic
+    dps:
+      - id: 116
+        type: integer
+        name: sensor
+        unit: rpm
+        class: measurement
+        optional: true
+  - entity: sensor
+    class: volume_flow_rate
+    dps:
+      - id: 125
+        type: integer
+        name: sensor
+        unit: L/min
+        class: measurement
+        optional: true
+
+  # Electrical
+  - entity: sensor
+    class: power
+    dps:
+      - id: 127
+        type: integer
+        name: sensor
+        unit: W
+        class: measurement
+        optional: true
+  - entity: sensor
+    class: current
+    category: diagnostic
+    dps:
+      - id: 115
+        type: integer
+        name: sensor
+        unit: A
+        class: measurement
+        optional: true
+        mapping:
+          - scale: 10
+  - entity: sensor
+    name: Energy today
+    class: energy
+    dps:
+      - id: 104
+        type: integer
+        name: sensor
+        unit: kWh
+        class: total_increasing
+        optional: true
+  - entity: sensor
+    name: Energy this month
+    class: energy
+    dps:
+      - id: 106
+        type: integer
+        name: sensor
+        unit: kWh
+        class: total_increasing
+        optional: true
+  - entity: sensor
+    name: Energy this year
+    class: energy
+    dps:
+      - id: 107
+        type: integer
+        name: sensor
+        unit: kWh
+        class: total_increasing
+        optional: true

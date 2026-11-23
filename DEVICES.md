@@ -112,6 +112,7 @@
 
 - Airton air conditioner
 - Airwoods fresh air heat pump
+- Aqualius Master Plus EVO 120 heat pump
 - Arlec PA1123BKHA portable air conditioner
 - Ballu Aura air conditioner
 - Be Cool BC14KL2101F
