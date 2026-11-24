@@ -37,12 +37,10 @@ entities:
         type: string
         name: mode
         hidden: true
-        optional: true
       - id: 119
         type: string
         name: water_off
         hidden: true
-        optional: true
         mapping:
           - dps_val: heat
             value: true
@@ -53,7 +51,6 @@ entities:
         type: string
         name: water_on
         hidden: true
-        optional: true
         mapping:
           - dps_val: dhw
             value: true
@@ -95,7 +92,6 @@ entities:
         type: string
         name: work_state
         hidden: true
-        optional: true
 
   # Domestic hot water (DHW)
   - entity: water_heater
@@ -130,12 +126,10 @@ entities:
         type: string
         name: mode
         hidden: true
-        optional: true
       - id: 119
         type: string
         name: air_off
         hidden: true
-        optional: true
         mapping:
           - dps_val: dhw
             value: true
@@ -144,7 +138,6 @@ entities:
         type: string
         name: air_cool
         hidden: true
-        optional: true
         mapping:
           - dps_val: cold
             value: true
@@ -155,7 +148,6 @@ entities:
         type: string
         name: air_heat
         hidden: true
-        optional: true
         mapping:
           - dps_val: heat
             value: true
@@ -166,7 +158,6 @@ entities:
         type: integer
         name: temperature
         unit: C
-        optional: true
         range:
           min: 100
           max: 750
@@ -176,7 +167,6 @@ entities:
       - id: 103
         type: integer
         name: current_temperature
-        optional: true
         mapping:
           - scale: 10
 
@@ -188,7 +178,6 @@ entities:
       - id: 119
         type: string
         name: option
-        optional: true
         mapping:
           - dps_val: heat
             value: heat
@@ -225,7 +214,6 @@ entities:
       - id: 110
         type: boolean
         name: switch
-        optional: true
   - entity: switch
     name: Fast cooling
     icon: "mdi:snowflake"
@@ -233,7 +221,6 @@ entities:
       - id: 111
         type: boolean
         name: switch
-        optional: true
   - entity: switch
     name: Fast hot water
     icon: "mdi:water-boiler"
@@ -241,7 +228,6 @@ entities:
       - id: 117
         type: boolean
         name: switch
-        optional: true
   - entity: switch
     translation_key: night_mode
     category: config
@@ -249,7 +235,6 @@ entities:
       - id: 121
         type: boolean
         name: switch
-        optional: true
   - entity: switch
     name: Silent mode
     icon: "mdi:volume-off"
@@ -258,7 +243,6 @@ entities:
       - id: 122
         type: boolean
         name: switch
-        optional: true
 
   # Status
   - entity: binary_sensor
@@ -268,7 +252,6 @@ entities:
       - id: 15
         type: bitfield
         name: sensor
-        optional: true
         mapping:
           - dps_val: 0
             value: false
@@ -276,7 +259,6 @@ entities:
       - id: 15
         type: bitfield
         name: fault_code
-        optional: true
   - entity: binary_sensor
     name: Compressor
     class: running
@@ -324,7 +306,6 @@ entities:
       - id: 123
         type: boolean
         name: sensor
-        optional: true
   - entity: binary_sensor
     name: Anti-legionella cycle
     class: running
@@ -334,7 +315,6 @@ entities:
       - id: 124
         type: boolean
         name: sensor
-        optional: true
   - entity: sensor
     name: Operating state
     class: enum
@@ -343,7 +323,6 @@ entities:
       - id: 120
         type: string
         name: sensor
-        optional: true
         mapping:
           - dps_val: heating
             value: Heating
@@ -373,7 +352,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -385,7 +363,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -397,7 +374,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -409,7 +385,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -423,7 +398,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -436,7 +410,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -449,7 +422,6 @@ entities:
         name: sensor
         unit: C
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -462,7 +434,6 @@ entities:
         name: sensor
         unit: K
         class: measurement
-        optional: true
         mapping:
           - scale: 10
 
@@ -477,7 +448,6 @@ entities:
         name: sensor
         unit: MPa
         class: measurement
-        optional: true
         mapping:
           - scale: 1000
   - entity: sensor
@@ -490,7 +460,6 @@ entities:
         name: sensor
         unit: MPa
         class: measurement
-        optional: true
         mapping:
           - scale: 1000
   - entity: sensor
@@ -503,7 +472,6 @@ entities:
         name: sensor
         unit: steps
         class: measurement
-        optional: true
   - entity: sensor
     name: Compressor frequency
     class: frequency
@@ -514,7 +482,6 @@ entities:
         name: sensor
         unit: Hz
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -527,7 +494,6 @@ entities:
         name: sensor
         unit: rpm
         class: measurement
-        optional: true
   - entity: sensor
     class: volume_flow_rate
     dps:
@@ -536,7 +502,6 @@ entities:
         name: sensor
         unit: L/min
         class: measurement
-        optional: true
 
   # Electrical
   - entity: sensor
@@ -547,7 +512,6 @@ entities:
         name: sensor
         unit: W
         class: measurement
-        optional: true
   - entity: sensor
     class: current
     category: diagnostic
@@ -557,7 +521,6 @@ entities:
         name: sensor
         unit: A
         class: measurement
-        optional: true
         mapping:
           - scale: 10
   - entity: sensor
@@ -569,7 +532,6 @@ entities:
         name: sensor
         unit: kWh
         class: total_increasing
-        optional: true
   - entity: sensor
     name: Energy this month
     class: energy
@@ -579,7 +541,6 @@ entities:
         name: sensor
         unit: kWh
         class: total_increasing
-        optional: true
   - entity: sensor
     name: Energy this year
     class: energy
@@ -589,4 +550,3 @@ entities:
         name: sensor
         unit: kWh
         class: total_increasing
-        optional: true
